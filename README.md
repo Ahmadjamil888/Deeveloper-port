@@ -28,8 +28,7 @@ Check out the live site here: [developerport.example.com](https://developerport.
 
 ## 📸 Screenshots
 
-![Home](./screenshots/home.png)
-![Projects](./screenshots/projects.png)
+![Home](https://raw.githubusercontent.com/Ahmadjamil888/Deeveloper-port/refs/heads/main/Screenshot%20(35).png)
 *(Add screenshots of your website's key pages)*
 
 ## 🧑‍💻 Getting Started
