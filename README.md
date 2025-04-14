@@ -15,7 +15,7 @@
 
 ## 🚀 Live Demo
 
-Check out the live site here: [developerport.example.com](https://ahmadjamil888.github.io/Deeveloper-port/)  
+Check out the live site here: [developer-port](https://ahmadjamil888.github.io/Deeveloper-port/)  
 *(Replace with your actual URL)*
 
 ## 🛠️ Built With
