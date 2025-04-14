@@ -1,6 +1,6 @@
-# Developer Port 🌐
+# Deeveloper Port 🌐
 
-**Developer Port** is a modern, sleek, and customizable portfolio website designed specifically for developers to showcase their skills, projects, and experience in an elegant and professional way.
+**Deeveloper Port** is a modern, sleek, and customizable portfolio website designed specifically for developers to showcase their skills, projects, and experience in an elegant and professional way.
 
 ## 🔥 Features
 
@@ -15,7 +15,7 @@
 
 ## 🚀 Live Demo
 
-Check out the live site here: [developer-port](https://ahmadjamil888.github.io/Deeveloper-port/)  
+Check out the live site here: [deeveloper-port](https://ahmadjamil888.github.io/Deeveloper-port/)  
 *(Replace with your actual URL)*
 
 ## 🛠️ Built With
