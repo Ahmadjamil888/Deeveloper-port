@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Portfolio</title>
+    <style>
+        :root {
+            --bg-color: #0a0e14;
+            --text-color: #e3e2e0;
+            --accent-color: #36f9f6;
+            --secondary-color: #ff7edb;
+            --tertiary-color: #fede5d;
+            --success-color: #72f1b8;
+            --code-bg: #1a1f2c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Consolas', 'Courier New', monospace;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Terminal Header */
+        header {
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(10, 14, 20, 0.95);
+            z-index: 100;
+            border-bottom: 1px solid var(--accent-color);
+        }
+
+        .terminal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .terminal-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .terminal-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .button-red {
+            background-color: #ff5f56;
+        }
+
+        .button-yellow {
+            background-color: #ffbd2e;
+        }
+
+        .button-green {
+            background-color: #27c93f;
+        }
+
+        .terminal-title {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        /* Navigation */
+        nav {
+            margin-top: 60px;
+            padding: 1rem 0;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            position: relative;
+            cursor: pointer;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-link::before {
+            content: ">";
+            color: var(--accent-color);
+            margin-right: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-link:hover::before {
+            opacity: 1;
+        }
+
+        /* Main Content */
+        main {
+            padding: 3rem 0;
+            margin-top: 60px;
+        }
+
+        section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .section-title::before {
+            content: "// ";
+            color: var(--secondary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            z-index: 10;
+        }
+
+        .typing-effect {
+            display: inline-block;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+            border-right: 0.15em solid var(--accent-color);
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typing 3.5s steps(30, end),
+                       blink-caret 0.75s step-end infinite;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+        }
+
+        .matrix-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 14, 20, 0.8);
+            z-index: 1;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background-color: var(--code-bg);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            border: 1px solid #2a2f3a;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-card-header {
+            background-color: #1e2433;
+            padding: 1rem;
+            border-bottom: 1px solid #2a2f3a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .project-title {
+            color: var(--tertiary-color);
+            font-size: 1.1rem;
+        }
+
+        .project-lang {
+            background-color: rgba(54, 249, 246, 0.2);
+            color: var(--accent-color);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .project-description {
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .project-link:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Code Panel */
+        .code-panel {
+            background-color: var(--code-bg);
+            border-radius: 4px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .code-panel::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(54, 249, 246, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .code-panel:hover::before {
+            opacity: 1;
+        }
+
+        .code-line {
+            display: flex;
+            margin-bottom: 0.3rem;
+        }
+
+        .line-number {
+            color: #4e5769;
+            min-width: 2rem;
+            text-align: right;
+            margin-right: 1rem;
+            user-select: none;
+        }
+
+        .keyword {
+            color: var(--secondary-color);
+        }
+
+        .function {
+            color: var(--tertiary-color);
+        }
+
+        .string {
+            color: var(--success-color);
+        }
+
+        .operator {
+            color: var(--text-color);
+        }
+
+        .comment {
+            color: #4e5769;
+            font-style: italic;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .about-text {
+            background-color: var(--code-bg);
+            padding: 2rem;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .code-block {
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .skill-tag {
+            background-color: rgba(54, 249, 246, 0.1);
+            color: var(--accent-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .skill-tag:hover {
+            background-color: rgba(54, 249, 246, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Contact Section */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--code-bg);
+            padding: 2rem;
+            border-radius: 4px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color);
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: rgba(10, 14, 20, 0.8);
+            border: 1px solid #2a2f3a;
+            border-radius: 4px;
+            color: var(--text-color);
+            font-family: 'Consolas', 'Courier New', monospace;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: transparent;
+            color: var(--accent-color);
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--accent-color);
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Consolas', 'Courier New', monospace;
+            transition: background-color 0.3s, color 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(54, 249, 246, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            background-color: rgba(54, 249, 246, 0.1);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            border-top: 1px solid #2a2f3a;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-link {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 1.2rem;
+        }
+
+        .social-link:hover {
+            color: var(--accent-color);
+        }
+
+        .footer-text {
+            font-size: 0.8rem;
+            color: #4e5769;
+        }
+
+        /* Animations */
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent-color) }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="terminal-header">
+                <div class="terminal-buttons">
+                    <div class="terminal-button button-red"></div>
+                    <div class="terminal-button button-yellow"></div>
+                    <div class="terminal-button button-green"></div>
+                </div>
+                <div class="terminal-title">developer-portfolio ~ -bash</div>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="matrix-background" id="matrix-canvas"></div>
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="typing-effect">Developer Portfolio</h1>
+                    <p class="hero-subtitle">function createAmazingWebExperiences() { }</p>
+                    <div class="code-panel">
+                        <div class="code-line">
+                            <span class="line-number">1</span>
+                            <span class="keyword">const</span> <span>developer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="function">Developer</span><span class="operator">()</span><span>;</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">2</span>
+                            <span class="keyword">let</span> <span>skills</span> <span class="operator">=</span> <span class="operator">[</span><span class="string">'HTML'</span><span>,</span> <span class="string">'CSS'</span><span>,</span> <span class="string">'JavaScript'</span><span>,</span> <span class="string">'React'</span><span>,</span> <span class="string">'Node.js'</span><span class="operator">]</span><span>;</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">3</span>
+                            <span class="comment">// Building amazing web experiences</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">4</span>
+                            <span>developer</span><span>.</span><span class="function">createSolutions</span><span class="operator">(</span><span class="operator">)</span><span>;</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <div class="code-block">
+                        <div class="code-line">
+                            <span class="line-number">1</span>
+                            <span class="keyword">class</span> <span class="function">Developer</span> <span class="operator">{</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">2</span>
+                            <span>&nbsp;&nbsp;</span><span class="function">constructor</span><span class="operator">()</span> <span class="operator">{</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">3</span>
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">this</span><span>.</span><span>name</span> <span class="operator">=</span> <span class="string">'John Doe'</span><span>;</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">4</span>
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">this</span><span>.</span><span>title</span> <span class="operator">=</span> <span class="string">'Full Stack Developer'</span><span>;</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">5</span>
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">this</span><span>.</span><span>location</span> <span class="operator">=</span> <span class="string">'San Francisco, CA'</span><span>;</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">6</span>
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">this</span><span>.</span><span>education</span> <span class="operator">=</span> <span class="string">'Computer Science, Stanford University'</span><span>;</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">7</span>
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">this</span><span>.</span><span>experience</span> <span class="operator">=</span> <span class="string">'5 years'</span><span>;</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">8</span>
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">this</span><span>.</span><span>interests</span> <span class="operator">=</span> <span class="operator">[</span><span class="string">'Web Development'</span><span>,</span> <span class="string">'UI/UX'</span><span>,</span> <span class="string">'AI'</span><span class="operator">]</span><span>;</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">9</span>
+                            <span>&nbsp;&nbsp;</span><span class="operator">}</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">10</span>
+                            <span>&nbsp;&nbsp;</span><span class="function">getSkills</span><span class="operator">()</span> <span class="operator">{</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">11</span>
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">return</span> <span class="operator">[</span>
+                        </div>
+                    </div>
+                    <div class="skills-list">
+                        <div class="skill-tag">HTML5</div>
+                        <div class="skill-tag">CSS3</div>
+                        <div class="skill-tag">JavaScript</div>
+                        <div class="skill-tag">React</div>
+                        <div class="skill-tag">Node.js</div>
+                        <div class="skill-tag">MongoDB</div>
+                        <div class="skill-tag">Git</div>
+                        <div class="skill-tag">Responsive Design</div>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-line">
+                            <span class="line-number">21</span>
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="operator">]</span><span>;</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">22</span>
+                            <span>&nbsp;&nbsp;</span><span class="operator">}</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="line-number">23</span>
+                            <span class="operator">}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-panel">
+                    <div class="code-line">
+                        <span class="line-number">1</span>
+                        <span class="comment">/**</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">2</span>
+                        <span class="comment"> * About Me</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">3</span>
+                        <span class="comment"> * I am a passionate developer with a keen interest in creating</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">4</span>
+                        <span class="comment"> * elegant solutions to complex problems. With 5 years of experience</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">5</span>
+                        <span class="comment"> * in web development, I specialize in building responsive, user-friendly</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">6</span>
+                        <span class="comment"> * applications using modern technologies.</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">7</span>
+                        <span class="comment"> * </span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">8</span>
+                        <span class="comment"> * My approach combines technical expertise with creative thinking</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">9</span>
+                        <span class="comment"> * to deliver solutions that not only meet but exceed expectations.</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">10</span>
+                        <span class="comment"> */</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="container">
+            <h2 class="section-title">Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-card-header">
+                        <h3 class="project-title">E-commerce Platform</h3>
+                        <span class="project-lang">React</span>
+                    </div>
+                    <div class="project-content">
+                        <p class="project-description">A fully responsive e-commerce platform with user authentication, product management, and payment processing.</p>
+                        <div class="project-links">
+                            <a href="#" class="project-link"><span>Demo</span></a>
+                            <a href="#" class="project-link"><span>GitHub</span></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card-header">
+                        <h3 class="project-title">Task Management App</h3>
+                        <span class="project-lang">MERN</span>
+                    </div>
+                    <div class="project-content">
+                        <p class="project-description">A comprehensive task management application with drag-and-drop functionality, deadlines, and team collaboration features.</p>
+                        <div class="project-links">
+                            <a href="#" class="project-link"><span>Demo</span></a>
+                            <a href="#" class="project-link"><span>GitHub</span></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card-header">
+                        <h3 class="project-title">Weather Dashboard</h3>
+                        <span class="project-lang">JavaScript</span>
+                    </div>
+                    <div class="project-content">
+                        <p class="project-description">Real-time weather forecasting application with location-based services and interactive data visualization.</p>
+                        <div class="project-links">
+                            <a href="#" class="project-link"><span>Demo</span></a>
+                            <a href="#" class="project-link"><span>GitHub</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="container">
+            <h2 class="section-title">Contact</h2>
+            <div class="contact-form">
+                <div class="form-group">
+                    <label for="name" class="form-label">Name:</label>
+                    <input type="text" id="name" class="form-input" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" id="email" class="form-input" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="message" class="form-label">Message:</label>
+                    <textarea id="message" class="form-textarea" placeholder="Enter your message"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#" class="social-link">GitHub</a>
+                <a href="#" class="social-link">LinkedIn</a>
+                <a href="#" class="social-link">Twitter</a>
+            </div>
+            <p class="footer-text">&copy; 2025 Developer Portfolio. All code is open source.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Matrix Animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('matrix-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            const matrixInit = function() {
+                canvas.width = window.innerWidth;
+                canvas.height = document.querySelector('.hero').offsetHeight;
+                
+                const characters = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヰヱヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                const fontSize = 14;
+                const columns = canvas.width / fontSize;
+                
+                const drops = [];
+                for (let i = 0; i < columns; i++) {
+                    drops[i] = 1;
+                }
+                
+                function drawMatrix() {
+                    ctx.fillStyle = 'rgba(10, 14, 20, 0.05)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    
+                    ctx.fillStyle = '#36f9f6';
+                    ctx.font = `${fontSize}px monospace`;
+                    
+                    for (let i = 0; i < drops.length; i++) {
+                        const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                        
+                        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                            drops[i] = 0;
+                        }
+                        
+                        drops[i]++;
+                    }
+                }
+                
+                setInterval(drawMatrix, 33);
+            };
+            
+            matrixInit();
+            
+            window.addEventListener('resize', function() {
+                matrixInit();
+            });
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Form handling
+        const form = document.querySelector('.contact-form');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Replace with your form handling code
+            alert('Form submitted! This would typically send data to a server.');
+            form.reset();
+        });
+    </script>
+</body>
+</html>
